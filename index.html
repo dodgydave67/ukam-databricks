@@ -512,8 +512,9 @@
 to configure and run the matcher.</p>
 <h2 id="use-this-configuration">Use this configuration<a class="headerlink" href="#use-this-configuration" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Run on a <strong>classic, single-node cluster</strong>. UKAM runs in the driver's Python
-   process, so worker nodes do not help.</li>
+<li>Run on <strong>classic compute</strong>. A single-node cluster is the most cost-efficient
+   choice when available, but UKAM also runs on a multi-node cluster. Matching
+   mainly uses the driver, so size the driver for the workload.</li>
 <li>Build the canonical folder once with <code>prepare_canonical_folder()</code> and keep
    it in durable storage.</li>
 <li>At the start of a cluster session, copy that prepared folder to

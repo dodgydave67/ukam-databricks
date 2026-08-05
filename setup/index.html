@@ -567,7 +567,7 @@
 </tr>
 <tr>
 <td>Cluster mode</td>
-<td><strong>Single Node</strong></td>
+<td>Single Node preferred when available; multi-node is supported</td>
 </tr>
 <tr>
 <td>Driver</td>
@@ -579,13 +579,16 @@
 </tr>
 <tr>
 <td>Workers</td>
-<td>None</td>
+<td>Not required by UKAM, but an existing multi-node cluster is fine</td>
 </tr>
 </tbody>
 </table>
-<p>UKAM and DuckDB run in the driver process. Adding workers increases cost
-without adding matching capacity. <code>/local_disk0</code> is required and is not
-available on serverless compute.</p>
+<p>UKAM and DuckDB perform the matching work mainly in the driver process. A
+single-node cluster avoids paying for workers that UKAM does not need, but it
+is a cost recommendation rather than a compatibility requirement. If your
+environment provides a multi-node classic cluster, use it and make sure the
+driver itself is large enough. <code>/local_disk0</code> is required and is not available
+on serverless compute.</p>
 <p>Check the cluster before starting:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
