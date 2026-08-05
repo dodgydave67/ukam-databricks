@@ -25,7 +25,7 @@ LOCAL_OUTPUT = "/local_disk0/ukam/matches.parquet"
 os.makedirs(LOCAL_PREPARED, exist_ok=True)
 os.makedirs(LOCAL_TMP, exist_ok=True)
 
-if not os.path.exists(f"{LOCAL_PREPARED}/ukam_manifest.json"):
+if not os.listdir(LOCAL_PREPARED):
     dbutils.fs.cp(  # noqa: F821
         PREPARED_REMOTE,
         f"file:{LOCAL_PREPARED}/",
