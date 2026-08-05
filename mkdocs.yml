@@ -57,4 +57,5 @@ nav:
   - Start here: index.md
   - Before you run: setup.md
   - Run UKAM: run.md
+  - Chunk large inputs: chunking.md
   - Settings: settings.md
