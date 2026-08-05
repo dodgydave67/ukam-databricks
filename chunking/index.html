@@ -416,10 +416,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cell-4-choose-the-output-table" class="md-nav__link">
+  <a href="#cell-4-choose-the-output-and-chunk-count" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cell 4 — Choose the output table
+        Cell 4 — Choose the output and chunk count
       
     </span>
   </a>
@@ -427,32 +427,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cell-5-create-the-chunks" class="md-nav__link">
+  <a href="#cell-5-match-in-chunks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cell 5 — Create the chunks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cell-6-match-and-save-each-chunk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cell 6 — Match and save each chunk
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#if-one-chunk-still-runs-out-of-memory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        If one chunk still runs out of memory
+        Cell 5 — Match in chunks
       
     </span>
   </a>
@@ -532,10 +510,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cell-4-choose-the-output-table" class="md-nav__link">
+  <a href="#cell-4-choose-the-output-and-chunk-count" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cell 4 — Choose the output table
+        Cell 4 — Choose the output and chunk count
       
     </span>
   </a>
@@ -543,32 +521,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cell-5-create-the-chunks" class="md-nav__link">
+  <a href="#cell-5-match-in-chunks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cell 5 — Create the chunks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cell-6-match-and-save-each-chunk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cell 6 — Match and save each chunk
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#if-one-chunk-still-runs-out-of-memory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        If one chunk still runs out of memory
+        Cell 5 — Match in chunks
       
     </span>
   </a>
@@ -601,33 +557,25 @@
 
 
 <h1 id="chunk-large-inputs">Chunk large inputs<a class="headerlink" href="#chunk-large-inputs" title="Permanent link">&para;</a></h1>
-<p>Large, messy inputs can exhaust the driver's memory during matching. Use this
-chunked version when the normal <a href="../run/">Run UKAM</a> notebook runs out of memory,
-or for inputs around a million rows and above. The exact limit depends on the
-data and the driver's available memory.</p>
-<p>This pattern:</p>
-<ol>
-<li>groups addresses by the first character of their postcode;</li>
-<li>spreads missing postcodes across 64 smaller buckets;</li>
-<li>converts one Spark chunk at a time to Arrow for UKAM;</li>
-<li>writes each completed chunk immediately to a Delta table; and</li>
-<li>skips completed chunks when the notebook is restarted.</li>
-</ol>
+<p>Use this version when the normal <a href="../run/">Run UKAM</a> notebook runs out of
+driver memory on a large, messy input.</p>
+<p>It splits the input into evenly sized chunks, matches one chunk at a time, and
+saves each chunk immediately. If the notebook stops, run it again and it will
+continue from the first unfinished chunk.</p>
 <h2 id="before-you-run-it">Before you run it<a class="headerlink" href="#before-you-run-it" title="Permanent link">&para;</a></h2>
-<p>Complete cells 1–3 on <a href="../run/">Run UKAM</a> first. This installs UKAM and copies
-the prepared canonical data to <code>LOCAL_PREPARED</code> on the driver.</p>
-<p>Your Spark DataFrame must be called <code>tdp_for_ukam</code> and contain:</p>
+<p>Run cells 1–3 on <a href="../run/">Run UKAM</a> first. Your Spark DataFrame should be
+called <code>tdp_for_ukam</code> and contain:</p>
 <table>
 <thead>
 <tr>
 <th>Column</th>
-<th>Required value</th>
+<th>Contents</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>unique_id</code></td>
-<td>A unique ID for each messy address</td>
+<td>A unique ID for each address</td>
 </tr>
 <tr>
 <td><code>address_concat</code></td>
@@ -639,122 +587,78 @@ the prepared canonical data to <code>LOCAL_PREPARED</code> on the driver.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="cell-4-choose-the-output-table">Cell 4 — Choose the output table<a class="headerlink" href="#cell-4-choose-the-output-table" title="Permanent link">&para;</a></h2>
-<p>Change this one value:</p>
+<h2 id="cell-4-choose-the-output-and-chunk-count">Cell 4 — Choose the output and chunk count<a class="headerlink" href="#cell-4-choose-the-output-and-chunk-count" title="Permanent link">&para;</a></h2>
+<p>Change the output table. Start with 64 chunks; increase this only if an
+individual chunk still runs out of memory.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">OUTPUT_TABLE</span> <span class="o">=</span> <span class="s2">&quot;&lt;catalog&gt;.&lt;schema&gt;.ukam_matches&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">NUMBER_OF_CHUNKS</span> <span class="o">=</span> <span class="mi">64</span>
 </code></pre></div>
-<p>If the table already exists, the code reads its <code>postcode_chunked</code> column and
-continues from the first unfinished chunk.</p>
-<h2 id="cell-5-create-the-chunks">Cell 5 — Create the chunks<a class="headerlink" href="#cell-5-create-the-chunks" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">tdp_for_ukam_chunked</span> <span class="o">=</span> <span class="n">tdp_for_ukam</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="s2">&quot;postcode_chunked&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">F</span><span class="o">.</span><span class="n">when</span><span class="p">(</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;postcode&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isNull</span><span class="p">()</span> <span class="o">|</span> <span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;postcode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="n">F</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="s2">&quot;MISSING_&quot;</span><span class="p">),</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>            <span class="n">F</span><span class="o">.</span><span class="n">lpad</span><span class="p">(</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>                <span class="n">F</span><span class="o">.</span><span class="n">pmod</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">xxhash64</span><span class="p">(</span><span class="s2">&quot;unique_id&quot;</span><span class="p">),</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">),</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                <span class="mi">2</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                <span class="s2">&quot;0&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>            <span class="p">),</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="p">),</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="p">)</span><span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="s2">&quot;postcode&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">1</span><span class="p">))),</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">)</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="k">if</span> <span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">tableExists</span><span class="p">(</span><span class="n">OUTPUT_TABLE</span><span class="p">):</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="n">completed_chunks</span> <span class="o">=</span> <span class="p">{</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        <span class="n">row</span><span class="p">[</span><span class="s2">&quot;postcode_chunked&quot;</span><span class="p">]</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">spark</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">OUTPUT_TABLE</span><span class="p">)</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;postcode_chunked&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>        <span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>        <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    <span class="p">}</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    <span class="n">completed_chunks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="n">postcode_chunk_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>    <span class="n">row</span><span class="p">[</span><span class="s2">&quot;postcode_chunked&quot;</span><span class="p">]</span>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tdp_for_ukam_chunked</span>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;postcode_chunked&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>    <span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
-<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="p">)</span>
-<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
-<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">completed_chunks</span><span class="p">)</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">postcode_chunk_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> chunks&quot;</span><span class="p">)</span>
+<p>Use a new output table if you change <code>NUMBER_OF_CHUNKS</code>.</p>
+<h2 id="cell-5-match-in-chunks">Cell 5 — Match in chunks<a class="headerlink" href="#cell-5-match-in-chunks" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uk_address_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">AddressMatcher</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Hashing the unique ID gives evenly sized chunks, including rows with no postcode.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">chunked_input</span> <span class="o">=</span> <span class="n">tdp_for_ukam</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="s2">&quot;ukam_chunk&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">F</span><span class="o">.</span><span class="n">pmod</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">xxhash64</span><span class="p">(</span><span class="s2">&quot;unique_id&quot;</span><span class="p">),</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="n">NUMBER_OF_CHUNKS</span><span class="p">)),</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># A rerun skips chunks that are already in the output table.</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">if</span> <span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">tableExists</span><span class="p">(</span><span class="n">OUTPUT_TABLE</span><span class="p">):</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">completed_chunks</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ukam_chunk&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">spark</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">OUTPUT_TABLE</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;ukam_chunk&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="p">}</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    <span class="n">completed_chunks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="k">for</span> <span class="n">chunk_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUMBER_OF_CHUNKS</span><span class="p">):</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="k">if</span> <span class="n">chunk_number</span> <span class="ow">in</span> <span class="n">completed_chunks</span><span class="p">:</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping completed chunk </span><span class="si">{</span><span class="n">chunk_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>        <span class="k">continue</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matching chunk </span><span class="si">{</span><span class="n">chunk_number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">NUMBER_OF_CHUNKS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    <span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>        <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SET temp_directory=&#39;</span><span class="si">{</span><span class="n">LOCAL_TMP</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>        <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET preserve_insertion_order=false&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>        <span class="n">addresses</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">from_arrow</span><span class="p">(</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>            <span class="n">chunked_input</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>            <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;ukam_chunk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">chunk_number</span><span class="p">)</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>            <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;unique_id&quot;</span><span class="p">,</span> <span class="s2">&quot;address_concat&quot;</span><span class="p">,</span> <span class="s2">&quot;postcode&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>            <span class="o">.</span><span class="n">toArrow</span><span class="p">()</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>        <span class="p">)</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>        <span class="n">matcher</span> <span class="o">=</span> <span class="n">AddressMatcher</span><span class="p">(</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>            <span class="n">canonical_addresses</span><span class="o">=</span><span class="n">LOCAL_PREPARED</span><span class="p">,</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>            <span class="n">addresses_to_match</span><span class="o">=</span><span class="n">addresses</span><span class="p">,</span>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>            <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>            <span class="n">show_progress</span><span class="o">=</span><span class="s2">&quot;stages&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>        <span class="p">)</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>        <span class="n">matches</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>            <span class="n">matcher</span><span class="o">.</span><span class="n">match</span><span class="p">()</span><span class="o">.</span><span class="n">matches</span><span class="p">()</span><span class="o">.</span><span class="n">to_arrow_table</span><span class="p">()</span>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>        <span class="p">)</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;ukam_chunk&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="n">chunk_number</span><span class="p">))</span>
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>        <span class="n">matches</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;append&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">saveAsTable</span><span class="p">(</span><span class="n">OUTPUT_TABLE</span><span class="p">)</span>
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved chunk </span><span class="si">{</span><span class="n">chunk_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>    <span class="k">finally</span><span class="p">:</span>
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>        <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All matches saved to </span><span class="si">{</span><span class="n">OUTPUT_TABLE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="cell-6-match-and-save-each-chunk">Cell 6 — Match and save each chunk<a class="headerlink" href="#cell-6-match-and-save-each-chunk" title="Permanent link">&para;</a></h2>
-<p>The matching stages and thresholds below are the ones used in
-<a href="https://github.com/moj-analytical-services/uk_address_matcher/discussions/438">discussion #438</a>.
-They affect which addresses match, not memory usage. Use them only if they are
-your approved matching rules.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uk_address_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">AddressMatcher</span><span class="p">,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">ExactMatchStage</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">PeeledAddressStage</span><span class="p">,</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">SplinkStage</span><span class="p">,</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">UniqueTrigramStage</span><span class="p">,</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">)</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">chunk_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">postcode_chunk_list</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="k">if</span> <span class="n">chunk_name</span> <span class="ow">in</span> <span class="n">completed_chunks</span><span class="p">:</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping completed chunk: </span><span class="si">{</span><span class="n">chunk_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="k">continue</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">postcode_chunk_list</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">chunk_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>        <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SET temp_directory=&#39;</span><span class="si">{</span><span class="n">LOCAL_TMP</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET preserve_insertion_order=false&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>        <span class="n">chunk_arrow</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>            <span class="n">tdp_for_ukam_chunked</span>
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>            <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;postcode_chunked&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">chunk_name</span><span class="p">)</span>
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>            <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;unique_id&quot;</span><span class="p">,</span> <span class="s2">&quot;address_concat&quot;</span><span class="p">,</span> <span class="s2">&quot;postcode&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>            <span class="o">.</span><span class="n">toArrow</span><span class="p">()</span>
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>        <span class="p">)</span>
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rows in chunk: </span><span class="si">{</span><span class="n">chunk_arrow</span><span class="o">.</span><span class="n">num_rows</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
-<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>        <span class="n">matcher</span> <span class="o">=</span> <span class="n">AddressMatcher</span><span class="p">(</span>
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>            <span class="n">canonical_addresses</span><span class="o">=</span><span class="n">LOCAL_PREPARED</span><span class="p">,</span>
-<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>            <span class="n">addresses_to_match</span><span class="o">=</span><span class="n">con</span><span class="o">.</span><span class="n">from_arrow</span><span class="p">(</span><span class="n">chunk_arrow</span><span class="p">),</span>
-<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>            <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
-<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>            <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>                <span class="n">ExactMatchStage</span><span class="p">(),</span>
-<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>                <span class="n">PeeledAddressStage</span><span class="p">(),</span>
-<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>                <span class="n">UniqueTrigramStage</span><span class="p">(),</span>
-<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>                <span class="n">SplinkStage</span><span class="p">(</span>
-<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>                    <span class="n">final_match_weight_threshold</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
-<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>                    <span class="n">final_distinguishability_threshold</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>                <span class="p">),</span>
-<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>            <span class="p">],</span>
-<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>        <span class="p">)</span>
-<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>
-<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>        <span class="n">matches_arrow</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">match</span><span class="p">()</span><span class="o">.</span><span class="n">matches</span><span class="p">()</span><span class="o">.</span><span class="n">to_arrow_table</span><span class="p">()</span>
-<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>            <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">matches_arrow</span><span class="p">)</span>
-<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>            <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;postcode_chunked&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="n">chunk_name</span><span class="p">))</span>
-<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a>        <span class="p">)</span>
-<a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a>
-<a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a>        <span class="n">result</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;append&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">saveAsTable</span><span class="p">(</span><span class="n">OUTPUT_TABLE</span><span class="p">)</span>
-<a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved chunk: </span><span class="si">{</span><span class="n">chunk_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a>
-<a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a>        <span class="k">del</span> <span class="n">matcher</span><span class="p">,</span> <span class="n">matches_arrow</span><span class="p">,</span> <span class="n">chunk_arrow</span><span class="p">,</span> <span class="n">result</span>
-<a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a>    <span class="k">finally</span><span class="p">:</span>
-<a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a>        <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a>
-<a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All chunks saved to </span><span class="si">{</span><span class="n">OUTPUT_TABLE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-<p>Each append to the Delta table is transactional. If Python or the cluster
-stops later, previously saved chunks remain available and the next run skips
-them.</p>
-<h2 id="if-one-chunk-still-runs-out-of-memory">If one chunk still runs out of memory<a class="headerlink" href="#if-one-chunk-still-runs-out-of-memory" title="Permanent link">&para;</a></h2>
-<p>Postcode-first-letter chunks are not all the same size. If one is still too
-large, split the input into more hash buckets or use a larger driver, then
-write to a new output table and rerun from the beginning.</p>
+<p>The two Arrow calls are only the efficient hand-off between Spark and UKAM's
+driver-side DuckDB process. Replacing them with pandas would use more driver
+memory; there are no Arrow settings to configure.</p>
+<p>Each Delta append is transactional, so completed chunks remain saved if the
+cluster or Python process stops later.</p>
 
 
 
