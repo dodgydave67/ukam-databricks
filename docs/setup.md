@@ -9,14 +9,17 @@ title: Setup
 | Setting | Use |
 | --- | --- |
 | Compute | **Classic**, not serverless |
-| Cluster mode | **Single Node** |
+| Cluster mode | Single Node preferred when available; multi-node is supported |
 | Driver | Start with at least 8 cores and about 64 GB RAM; increase the driver for larger workloads |
 | Local storage | Enough `/local_disk0` space for the prepared canonical folder, output, and possible DuckDB spill |
-| Workers | None |
+| Workers | Not required by UKAM, but an existing multi-node cluster is fine |
 
-UKAM and DuckDB run in the driver process. Adding workers increases cost
-without adding matching capacity. `/local_disk0` is required and is not
-available on serverless compute.
+UKAM and DuckDB perform the matching work mainly in the driver process. A
+single-node cluster avoids paying for workers that UKAM does not need, but it
+is a cost recommendation rather than a compatibility requirement. If your
+environment provides a multi-node classic cluster, use it and make sure the
+driver itself is large enough. `/local_disk0` is required and is not available
+on serverless compute.
 
 Check the cluster before starting:
 

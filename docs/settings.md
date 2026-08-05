@@ -9,7 +9,7 @@ title: Settings
 | Item | Recommended value | Why |
 | --- | --- | --- |
 | Compute | Classic | Provides `/local_disk0` |
-| Cluster shape | Single Node | UKAM runs in the driver process |
+| Cluster shape | Single Node preferred; multi-node supported | Matching mainly uses the driver, so driver sizing matters most |
 | Prepared canonical data | Build once and store durably | Avoids repeating canonical cleaning and indexing |
 | Match-time canonical path | `/local_disk0/ukam/prepared` | Keeps repeated Parquet reads off network storage |
 | Output path | Write locally, then copy remotely | `/local_disk0` is fast but ephemeral |
