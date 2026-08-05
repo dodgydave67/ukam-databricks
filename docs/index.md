@@ -30,8 +30,8 @@ to bottom.
 | DuckDB settings | Local `temp_directory` and `preserve_insertion_order=false` |
 | Output | Write locally, then copy to durable storage |
 
-[:material-play: Copy and run the notebook](run.md){ .md-button .md-button--primary }
-[:material-cog: Check the prerequisites](setup.md){ .md-button }
+[Copy and run the notebook](run.md){ .md-button .md-button--primary }
+[Check the prerequisites](setup.md){ .md-button }
 
 ## What stays at the default
 

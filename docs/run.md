@@ -7,7 +7,7 @@ title: Run UKAM
 Paste these five cells into a Databricks notebook and run them in order, or
 download the ready-made notebook.
 
-[:material-download: Download the Databricks notebook](assets/ukam_databricks_match.py){ .md-button .md-button--primary }
+[Download the Databricks notebook](assets/ukam_databricks_match.py){ .md-button .md-button--primary }
 
 ## Cell 1 — Install UKAM
 
