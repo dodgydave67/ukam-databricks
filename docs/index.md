@@ -4,56 +4,36 @@ title: Start here
 
 # UK Address Matcher on Databricks
 
-This is the production recipe for running
+This site shows the shortest recommended way to run
 [`uk_address_matcher`](https://github.com/moj-analytical-services/uk_address_matcher)
-(UKAM) efficiently on Databricks. It contains only the settings and code needed
-to configure and run the matcher.
+(UKAM) on Databricks.
 
-## Use this configuration
+If you already have a prepared canonical folder, go straight to
+[Run UKAM](run.md). The notebook asks for three paths and can be run from top
+to bottom.
 
-1. Run on **classic compute**. A single-node cluster is the most cost-efficient
-   choice when available, but UKAM also runs on a multi-node cluster. Matching
-   mainly uses the driver, so size the driver for the workload.
-2. Build the canonical folder once with `prepare_canonical_folder()` and keep
-   it in durable storage.
-3. At the start of a cluster session, copy that prepared folder to
-   `/local_disk0`.
-4. Use a **fresh, in-memory DuckDB connection** for each matching run.
-5. Put DuckDB temporary files on `/local_disk0` and disable insertion-order
-   preservation.
-6. Write the result locally, then copy it back to durable storage.
+## What you need
 
-The downloadable notebook implements those choices directly.
+- a classic Databricks cluster — single-node or multi-node
+- a canonical folder already created by `prepare_canonical_folder()`
+- the addresses you want to match, stored as Parquet
+- a durable folder for the results
 
-[:material-play: Run the matcher](run.md){ .md-button .md-button--primary }
-[:material-cog: Configure Databricks](setup.md){ .md-button }
+## Recommended configuration
 
-## The important code
+| Part | Use |
+| --- | --- |
+| Compute | Classic compute so `/local_disk0` is available |
+| Cluster | Single-node when available; multi-node is supported |
+| Canonical data | Copy the prepared folder to `/local_disk0` once per cluster |
+| DuckDB | A fresh in-memory connection for each matching run |
+| DuckDB settings | Local `temp_directory` and `preserve_insertion_order=false` |
+| Output | Write locally, then copy to durable storage |
 
-```python
-import duckdb
-from uk_address_matcher import AddressMatcher
+[:material-play: Copy and run the notebook](run.md){ .md-button .md-button--primary }
+[:material-cog: Check the prerequisites](setup.md){ .md-button }
 
-con = duckdb.connect()
-con.execute("SET temp_directory='/local_disk0/ukam/tmp'")
-con.execute("SET preserve_insertion_order=false")
+## What stays at the default
 
-matcher = AddressMatcher(
-    canonical_addresses="/local_disk0/ukam/prepared",
-    addresses_to_match=con.read_parquet(MESSY_INPUT),
-    con=con,
-    show_progress="stages",
-)
-
-matches = matcher.match().matches()
-```
-
-The canonical folder must be prepared already and copied to the local path
-before this block runs. The [Run UKAM](run.md) page provides the complete
-notebook, including that copy and durable output.
-
-!!! note "Matching behaviour"
-
-    This setup changes where the work runs, not how UKAM scores addresses. It
-    leaves blocking rules, thresholds, stages, and other accuracy-affecting
-    options at their UKAM defaults.
+The notebook does not change UKAM's matching rules, stages, thresholds, or
+candidate limits. It only changes the Databricks and DuckDB execution setup.

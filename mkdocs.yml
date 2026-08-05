@@ -48,7 +48,6 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.snippets
   - pymdownx.superfences
 
 extra_css:
@@ -56,6 +55,6 @@ extra_css:
 
 nav:
   - Start here: index.md
-  - Setup: setup.md
+  - Before you run: setup.md
   - Run UKAM: run.md
   - Settings: settings.md
