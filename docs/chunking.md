@@ -13,8 +13,8 @@ continue from the first unfinished chunk.
 
 ## Before you run it
 
-Run cells 1–3 on [Run UKAM](run.md) first. Your Spark DataFrame should be
-called `tdp_for_ukam` and contain:
+Run cells 1–3 on [Run UKAM](run.md) first. The Parquet files at `MESSY_INPUT`
+should contain:
 
 | Column | Contents |
 | --- | --- |
@@ -41,56 +41,58 @@ import duckdb
 from pyspark.sql import functions as F
 from uk_address_matcher import AddressMatcher
 
+messy_addresses = spark.read.parquet(MESSY_INPUT)
+
 # Hashing the unique ID gives evenly sized chunks, including rows with no postcode.
-chunked_input = tdp_for_ukam.withColumn(
-    "ukam_chunk",
+chunked_addresses = messy_addresses.withColumn(
+    "ukam_chunk_id",
     F.pmod(F.xxhash64("unique_id"), F.lit(NUMBER_OF_CHUNKS)),
 )
 
 # A rerun skips chunks that are already in the output table.
 if spark.catalog.tableExists(OUTPUT_TABLE):
-    completed_chunks = {
-        row["ukam_chunk"]
+    completed_chunk_ids = {
+        row["ukam_chunk_id"]
         for row in spark.table(OUTPUT_TABLE)
-        .select("ukam_chunk")
+        .select("ukam_chunk_id")
         .distinct()
         .collect()
     }
 else:
-    completed_chunks = set()
+    completed_chunk_ids = set()
 
-for chunk_number in range(NUMBER_OF_CHUNKS):
-    if chunk_number in completed_chunks:
-        print(f"Skipping completed chunk {chunk_number}")
+for chunk_id in range(NUMBER_OF_CHUNKS):
+    if chunk_id in completed_chunk_ids:
+        print(f"Skipping completed chunk {chunk_id}")
         continue
 
-    print(f"Matching chunk {chunk_number + 1} of {NUMBER_OF_CHUNKS}")
+    print(f"Matching chunk {chunk_id + 1} of {NUMBER_OF_CHUNKS}")
     con = duckdb.connect()
 
     try:
         con.execute(f"SET temp_directory='{LOCAL_TMP}'")
         con.execute("SET preserve_insertion_order=false")
 
-        addresses = con.from_arrow(
-            chunked_input
-            .where(F.col("ukam_chunk") == chunk_number)
+        addresses_to_match = con.from_arrow(
+            chunked_addresses
+            .where(F.col("ukam_chunk_id") == chunk_id)
             .select("unique_id", "address_concat", "postcode")
             .toArrow()
         )
 
         matcher = AddressMatcher(
             canonical_addresses=LOCAL_PREPARED,
-            addresses_to_match=addresses,
+            addresses_to_match=addresses_to_match,
             con=con,
             show_progress="stages",
         )
 
-        matches = spark.createDataFrame(
+        chunk_matches = spark.createDataFrame(
             matcher.match().matches().to_arrow_table()
-        ).withColumn("ukam_chunk", F.lit(chunk_number))
+        ).withColumn("ukam_chunk_id", F.lit(chunk_id))
 
-        matches.write.format("delta").mode("append").saveAsTable(OUTPUT_TABLE)
-        print(f"Saved chunk {chunk_number}")
+        chunk_matches.write.format("delta").mode("append").saveAsTable(OUTPUT_TABLE)
+        print(f"Saved chunk {chunk_id}")
     finally:
         con.close()
 
