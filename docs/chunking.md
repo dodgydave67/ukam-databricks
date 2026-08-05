@@ -4,8 +4,9 @@ title: Chunk large inputs
 
 # Chunk large inputs
 
-Use this version when the normal [Run UKAM](run.md) notebook runs out of
-driver memory on a large, messy input.
+You will normally need chunking when matching a messy input of more than one
+million rows. Use this version sooner if the normal [Run UKAM](run.md)
+notebook runs out of driver memory.
 
 It splits the input into evenly sized chunks, matches one chunk at a time, and
 saves each chunk immediately. If the notebook stops, run it again and it will
