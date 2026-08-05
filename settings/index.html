@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#recommended-settings" class="md-skip">
+        <a href="#settings" class="md-skip">
           Skip to content
         </a>
       
@@ -296,7 +296,7 @@
   <span class="md-ellipsis">
     
   
-    Setup
+    Before you run
   
 
     
@@ -403,85 +403,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#databricks-and-storage" class="md-nav__link">
+  <a href="#if-something-goes-wrong" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Databricks and storage
+        If something goes wrong
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#duckdb-and-ukam" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DuckDB and UKAM
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-problems" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common problems
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common problems">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#local_disk0-does-not-exist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        /local_disk0 does not exist
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#a-table-already-exists-on-the-second-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A table already exists on the second run
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-prepared-canonical-data-changed-but-the-job-uses-the-old-copy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The prepared canonical data changed but the job uses the old copy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-driver-runs-out-of-memory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The driver runs out of memory
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -520,85 +448,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#databricks-and-storage" class="md-nav__link">
+  <a href="#if-something-goes-wrong" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Databricks and storage
+        If something goes wrong
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#duckdb-and-ukam" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DuckDB and UKAM
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-problems" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common problems
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common problems">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#local_disk0-does-not-exist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        /local_disk0 does not exist
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#a-table-already-exists-on-the-second-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A table already exists on the second run
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-prepared-canonical-data-changed-but-the-job-uses-the-old-copy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The prepared canonical data changed but the job uses the old copy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-driver-runs-out-of-memory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The driver runs out of memory
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -627,127 +483,92 @@
   
 
 
-<h1 id="recommended-settings">Recommended settings<a class="headerlink" href="#recommended-settings" title="Permanent link">&para;</a></h1>
-<h2 id="databricks-and-storage">Databricks and storage<a class="headerlink" href="#databricks-and-storage" title="Permanent link">&para;</a></h2>
+<h1 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h1>
+<p>Use these values and leave the remaining DuckDB and UKAM options at their
+defaults.</p>
 <table>
 <thead>
 <tr>
-<th>Item</th>
-<th>Recommended value</th>
-<th>Why</th>
+<th>Setting</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Compute</td>
 <td>Classic</td>
-<td>Provides <code>/local_disk0</code></td>
 </tr>
 <tr>
-<td>Cluster shape</td>
-<td>Single Node preferred; multi-node supported</td>
-<td>Matching mainly uses the driver, so driver sizing matters most</td>
+<td>Cluster</td>
+<td>Single-node preferred; multi-node supported</td>
 </tr>
 <tr>
-<td>Prepared canonical data</td>
-<td>Build once and store durably</td>
-<td>Avoids repeating canonical cleaning and indexing</td>
-</tr>
-<tr>
-<td>Match-time canonical path</td>
-<td><code>/local_disk0/ukam/prepared</code></td>
-<td>Keeps repeated Parquet reads off network storage</td>
-</tr>
-<tr>
-<td>Output path</td>
-<td>Write locally, then copy remotely</td>
-<td><code>/local_disk0</code> is fast but ephemeral</td>
-</tr>
-</tbody>
-</table>
-<h2 id="duckdb-and-ukam">DuckDB and UKAM<a class="headerlink" href="#duckdb-and-ukam" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Recommended value</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Connection</td>
+<td>DuckDB connection</td>
 <td><code>duckdb.connect()</code></td>
-<td>In-memory; open a fresh connection per matching run</td>
 </tr>
 <tr>
 <td><code>temp_directory</code></td>
 <td><code>/local_disk0/ukam/tmp</code></td>
-<td>Places any spill on driver-local storage</td>
 </tr>
 <tr>
 <td><code>preserve_insertion_order</code></td>
 <td><code>false</code></td>
-<td>Avoids unnecessary ordering overhead</td>
 </tr>
 <tr>
 <td><code>threads</code></td>
 <td>Leave unset</td>
-<td>DuckDB uses the available cores</td>
 </tr>
 <tr>
 <td><code>memory_limit</code></td>
 <td>Leave unset</td>
-<td>Set only if the driver shares memory with other workloads</td>
 </tr>
 <tr>
 <td><code>canonical_addresses</code></td>
-<td>Local prepared-folder path</td>
-<td>Do not pass raw canonical data to every match</td>
+<td>Prepared folder copied to <code>/local_disk0</code></td>
 </tr>
 <tr>
 <td><code>addresses_to_match</code></td>
-<td>Relation created on the same connection</td>
-<td>Avoids connection mismatch problems</td>
+<td>Read with the same DuckDB connection</td>
 </tr>
 <tr>
 <td><code>show_progress</code></td>
-<td><code>"stages"</code> for jobs</td>
-<td>Concise scheduled-job logging</td>
+<td><code>"stages"</code> for a scheduled job</td>
 </tr>
 </tbody>
 </table>
-<p>Check the active DuckDB settings:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="s2">&quot;threads&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="s2">&quot;memory_limit&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="s2">&quot;temp_directory&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="s2">&quot;preserve_insertion_order&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">):</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">value</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="sa">f</span><span class="s2">&quot;SELECT current_setting(&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
 <div class="admonition warning">
-<p class="admonition-title">Leave matching defaults alone unless you mean to change results</p>
-<p>Blocking rules, match-weight thresholds, <code>canonical_address_filter</code>,
-stages, and candidate limits affect which address wins or whether an
-address matches. They are not part of this performance setup.</p>
+<p class="admonition-title">Do not tune matching behaviour by accident</p>
+<p>Blocking rules, stages, match thresholds, candidate limits, and
+<code>canonical_address_filter</code> can change the result. They are not part of this
+Databricks performance setup.</p>
 </div>
-<h2 id="common-problems">Common problems<a class="headerlink" href="#common-problems" title="Permanent link">&para;</a></h2>
-<h3 id="local_disk0-does-not-exist"><code>/local_disk0</code> does not exist<a class="headerlink" href="#local_disk0-does-not-exist" title="Permanent link">&para;</a></h3>
-<p>The cluster is serverless. Switch to classic compute.</p>
-<h3 id="a-table-already-exists-on-the-second-run">A table already exists on the second run<a class="headerlink" href="#a-table-already-exists-on-the-second-run" title="Permanent link">&para;</a></h3>
-<p>Close the DuckDB connection and create a new one for each <code>AddressMatcher</code>
-run. Splink creates working tables on the connection.</p>
-<h3 id="the-prepared-canonical-data-changed-but-the-job-uses-the-old-copy">The prepared canonical data changed but the job uses the old copy<a class="headerlink" href="#the-prepared-canonical-data-changed-but-the-job-uses-the-old-copy" title="Permanent link">&para;</a></h3>
-<p>Set <code>REFRESH_CANONICAL = True</code> for one run, restart the cluster, or use a new
-versioned local directory.</p>
-<h3 id="the-driver-runs-out-of-memory">The driver runs out of memory<a class="headerlink" href="#the-driver-runs-out-of-memory" title="Permanent link">&para;</a></h3>
-<p>Increase the driver size first. If memory must be capped, set a DuckDB
-<code>memory_limit</code> and keep <code>temp_directory</code> on <code>/local_disk0</code> so spill remains
-local.</p>
+<h2 id="if-something-goes-wrong">If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/local_disk0</code> does not exist</td>
+<td>Use classic compute instead of serverless</td>
+</tr>
+<tr>
+<td>A table already exists on the second run</td>
+<td>Close the old connection and use a fresh <code>duckdb.connect()</code></td>
+</tr>
+<tr>
+<td>The job uses an old canonical copy</td>
+<td>Restart the cluster or delete <code>/local_disk0/ukam/prepared</code></td>
+</tr>
+<tr>
+<td>The driver runs out of memory</td>
+<td>Increase the driver size; keep <code>temp_directory</code> on local disk</td>
+</tr>
+</tbody>
+</table>
 
 
 

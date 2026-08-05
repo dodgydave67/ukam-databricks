@@ -27,7 +27,7 @@
     
     
       
-        <title>Setup - UKAM on Databricks</title>
+        <title>Before you run - UKAM on Databricks</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#set-up-databricks" class="md-skip">
+        <a href="#before-you-run" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup
+              Before you run
             
           </span>
         </div>
@@ -307,7 +307,7 @@
   <span class="md-ellipsis">
     
   
-    Setup
+    Before you run
   
 
     
@@ -325,7 +325,7 @@
   <span class="md-ellipsis">
     
   
-    Setup
+    Before you run
   
 
     
@@ -351,10 +351,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#cluster" class="md-nav__link">
+  <a href="#1-use-classic-compute" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cluster
+        1. Use classic compute
       
     </span>
   </a>
@@ -362,10 +362,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-ukam" class="md-nav__link">
+  <a href="#2-install-ukam" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install UKAM
+        2. Install UKAM
       
     </span>
   </a>
@@ -373,10 +373,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#choose-three-paths" class="md-nav__link">
+  <a href="#3-have-a-prepared-canonical-folder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Choose three paths
+        3. Have a prepared canonical folder
       
     </span>
   </a>
@@ -384,10 +384,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#prepare-the-canonical-folder-once" class="md-nav__link">
+  <a href="#4-know-your-three-paths" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prepare the canonical folder once
+        4. Know your three paths
       
     </span>
   </a>
@@ -483,10 +483,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#cluster" class="md-nav__link">
+  <a href="#1-use-classic-compute" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cluster
+        1. Use classic compute
       
     </span>
   </a>
@@ -494,10 +494,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-ukam" class="md-nav__link">
+  <a href="#2-install-ukam" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install UKAM
+        2. Install UKAM
       
     </span>
   </a>
@@ -505,10 +505,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#choose-three-paths" class="md-nav__link">
+  <a href="#3-have-a-prepared-canonical-folder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Choose three paths
+        3. Have a prepared canonical folder
       
     </span>
   </a>
@@ -516,10 +516,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#prepare-the-canonical-folder-once" class="md-nav__link">
+  <a href="#4-know-your-three-paths" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prepare the canonical folder once
+        4. Know your three paths
       
     </span>
   </a>
@@ -551,115 +551,50 @@
   
 
 
-<h1 id="set-up-databricks">Set up Databricks<a class="headerlink" href="#set-up-databricks" title="Permanent link">&para;</a></h1>
-<h2 id="cluster">Cluster<a class="headerlink" href="#cluster" title="Permanent link">&para;</a></h2>
+<h1 id="before-you-run">Before you run<a class="headerlink" href="#before-you-run" title="Permanent link">&para;</a></h1>
+<h2 id="1-use-classic-compute">1. Use classic compute<a class="headerlink" href="#1-use-classic-compute" title="Permanent link">&para;</a></h2>
+<p><code>/local_disk0</code> must be available. A single-node cluster is usually the cheapest
+choice because matching mainly uses the driver, but a multi-node classic
+cluster works too. Size the driver for your data.</p>
+<h2 id="2-install-ukam">2. Install UKAM<a class="headerlink" href="#2-install-ukam" title="Permanent link">&para;</a></h2>
+<p>Run this in the first notebook cell:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">uk_address_matcher</span><span class="o">==</span><span class="mf">1.2.4</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">dbutils</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">restartPython</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="3-have-a-prepared-canonical-folder">3. Have a prepared canonical folder<a class="headerlink" href="#3-have-a-prepared-canonical-folder" title="Permanent link">&para;</a></h2>
+<p>The matching notebook expects a folder previously created with
+<code>prepare_canonical_folder()</code>. Preparation is a separate, occasional task — do
+not prepare the canonical data again inside every matching job.</p>
+<p>If you do not have one yet, create it first by following the
+<a href="https://moj-analytical-services.github.io/uk_address_matcher/">official UKAM documentation</a>.</p>
+<h2 id="4-know-your-three-paths">4. Know your three paths<a class="headerlink" href="#4-know-your-three-paths" title="Permanent link">&para;</a></h2>
+<p>The notebook asks for:</p>
 <table>
 <thead>
 <tr>
-<th>Setting</th>
-<th>Use</th>
+<th>Name</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Compute</td>
-<td><strong>Classic</strong>, not serverless</td>
+<td>Prepared canonical folder</td>
+<td><code>dbfs:/Volumes/catalog/schema/volume/ukam_prepared_canonical</code></td>
 </tr>
 <tr>
-<td>Cluster mode</td>
-<td>Single Node preferred when available; multi-node is supported</td>
+<td>Messy Parquet input</td>
+<td><code>/Volumes/catalog/schema/volume/messy/*.parquet</code></td>
 </tr>
 <tr>
-<td>Driver</td>
-<td>Start with at least 8 cores and about 64 GB RAM; increase the driver for larger workloads</td>
-</tr>
-<tr>
-<td>Local storage</td>
-<td>Enough <code>/local_disk0</code> space for the prepared canonical folder, output, and possible DuckDB spill</td>
-</tr>
-<tr>
-<td>Workers</td>
-<td>Not required by UKAM, but an existing multi-node cluster is fine</td>
+<td>Results folder</td>
+<td><code>dbfs:/Volumes/catalog/schema/volume/ukam_matches</code></td>
 </tr>
 </tbody>
 </table>
-<p>UKAM and DuckDB perform the matching work mainly in the driver process. A
-single-node cluster avoids paying for workers that UKAM does not need, but it
-is a cost recommendation rather than a compatibility requirement. If your
-environment provides a multi-node classic cluster, use it and make sure the
-driver itself is large enough. <code>/local_disk0</code> is required and is not available
-on serverless compute.</p>
-<p>Check the cluster before starting:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">stat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">statvfs</span><span class="p">(</span><span class="s2">&quot;/local_disk0&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">free_gb</span> <span class="o">=</span> <span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">f_bavail</span> <span class="o">*</span> <span class="n">stat</span><span class="o">.</span><span class="n">f_frsize</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/local_disk0 free: </span><span class="si">{</span><span class="n">free_gb</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="install-ukam">Install UKAM<a class="headerlink" href="#install-ukam" title="Permanent link">&para;</a></h2>
-<p>Use a cluster library or the first notebook cell:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">uk_address_matcher</span><span class="o">==</span><span class="mf">1.2.4</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">dbutils</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">restartPython</span><span class="p">()</span>
-</code></pre></div>
-<p>Pinning the version prevents an upstream change from silently changing a
-scheduled job. Test a newer UKAM version before updating the pin.</p>
-<h2 id="choose-three-paths">Choose three paths<a class="headerlink" href="#choose-three-paths" title="Permanent link">&para;</a></h2>
-<p>The production notebook asks you to edit only these values:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">PREPARED_REMOTE</span> <span class="o">=</span> <span class="s2">&quot;dbfs:/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/ukam_prepared_canonical&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">MESSY_INPUT</span> <span class="o">=</span> <span class="s2">&quot;/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/messy/*.parquet&quot;</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">OUTPUT_REMOTE_DIR</span> <span class="o">=</span> <span class="s2">&quot;dbfs:/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/ukam_matches&quot;</span>
-</code></pre></div>
-<ul>
-<li><code>PREPARED_REMOTE</code> uses a <code>dbfs:/...</code> URI because <code>dbutils.fs.cp</code> copies it to
-  local disk.</li>
-<li><code>MESSY_INPUT</code> is a POSIX-style path that DuckDB can read. For an older DBFS
-  mount, use <code>/dbfs/mnt/&lt;path&gt;/*.parquet</code>.</li>
-<li><code>OUTPUT_REMOTE_DIR</code> is durable storage. Results must not remain only on
-  <code>/local_disk0</code>, which is erased with the cluster.</li>
-</ul>
-<h2 id="prepare-the-canonical-folder-once">Prepare the canonical folder once<a class="headerlink" href="#prepare-the-canonical-folder-once" title="Permanent link">&para;</a></h2>
-<p>If you already have a folder created by <code>prepare_canonical_folder()</code>, skip this
-section. Do not place preparation inside every matching job.</p>
-<p>Run preparation when the canonical source changes, then store the prepared
-folder in the location configured as <code>PREPARED_REMOTE</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uk_address_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_canonical_folder</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">LOCAL_ROOT</span> <span class="o">=</span> <span class="s2">&quot;/local_disk0/ukam_prepare&quot;</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">LOCAL_PREPARED</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">LOCAL_ROOT</span><span class="si">}</span><span class="s2">/prepared&quot;</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">REMOTE_PREPARED</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="s2">&quot;dbfs:/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/ukam_prepared_canonical&quot;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">LOCAL_ROOT</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">LOCAL_ROOT</span><span class="si">}</span><span class="s2">/prepare.duckdb&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SET temp_directory=&#39;</span><span class="si">{</span><span class="n">LOCAL_ROOT</span><span class="si">}</span><span class="s2">/tmp&#39;&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET preserve_insertion_order=false&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">raw_canonical</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="s2">&quot;/local_disk0/ukam_prepare/raw/*.parquet&quot;</span>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="p">)</span>
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
-<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="n">prepare_canonical_folder</span><span class="p">(</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    <span class="n">raw_canonical</span><span class="p">,</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    <span class="n">LOCAL_PREPARED</span><span class="p">,</span>
-<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>    <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
-<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    <span class="n">show_progress</span><span class="o">=</span><span class="s2">&quot;stages&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="p">)</span>
-<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
-<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="n">dbutils</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span>
-<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>    <span class="sa">f</span><span class="s2">&quot;file:</span><span class="si">{</span><span class="n">LOCAL_PREPARED</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    <span class="n">REMOTE_PREPARED</span><span class="p">,</span>
-<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    <span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="p">)</span>
-<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</code></pre></div>
-<p>Copy the raw canonical Parquet files to the local <code>raw</code> directory before
-running this preparation block. Version prepared folders when the canonical
-release changes, or refresh the local cached copy before the next match.</p>
+<p>For an older DBFS mount, the equivalent input path is
+<code>/dbfs/mnt/&lt;path&gt;/*.parquet</code>. Keep the <code>dbfs:/...</code> form for paths passed to
+<code>dbutils.fs</code> and the POSIX form for paths read by DuckDB.</p>
+<p>That is all the setup required for the matching notebook.</p>
 
 
 
