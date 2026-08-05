@@ -10,29 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://dodgydave67.github.io/ukam-databricks/">
+        <link rel="canonical" href="https://dodgydave67.github.io/ukam-databricks/setup/">
       
       
+        <link rel="prev" href="..">
       
-        <link rel="next" href="setup/">
+      
+        <link rel="next" href="../run/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Start here - UKAM on Databricks</title>
+        <title>Setup - UKAM on Databricks</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/extra.css">
+      <link rel="stylesheet" href="../assets/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#uk-address-matcher-on-databricks" class="md-skip">
+        <a href="#set-up-databricks" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +96,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="UKAM on Databricks" class="md-header__button md-logo" aria-label="UKAM on Databricks" data-md-component="logo">
+    <a href=".." title="UKAM on Databricks" class="md-header__button md-logo" aria-label="UKAM on Databricks" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c3.86 0 7 3.14 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.86 3.14-7 7-7m-1.53 12L17 7.41 15.6 6l-5.13 5.18L8.4 9.09 7 10.5z"/></svg>
@@ -114,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Start here
+              Setup
             
           </span>
         </div>
@@ -232,7 +234,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="UKAM on Databricks" class="md-nav__button md-logo" aria-label="UKAM on Databricks" data-md-component="logo">
+    <a href=".." title="UKAM on Databricks" class="md-nav__button md-logo" aria-label="UKAM on Databricks" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c3.86 0 7 3.14 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.86 3.14-7 7-7m-1.53 12L17 7.41 15.6 6l-5.13 5.18L8.4 9.09 7 10.5z"/></svg>
@@ -259,6 +261,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -278,7 +307,7 @@
   <span class="md-ellipsis">
     
   
-    Start here
+    Setup
   
 
     
@@ -289,14 +318,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Start here
+    Setup
   
 
     
@@ -322,10 +351,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#use-this-configuration" class="md-nav__link">
+  <a href="#cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Use this configuration
+        Cluster
       
     </span>
   </a>
@@ -333,10 +362,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-important-code" class="md-nav__link">
+  <a href="#install-ukam" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The important code
+        Install UKAM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-three-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose three paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-canonical-folder-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the canonical folder once
       
     </span>
   </a>
@@ -358,34 +409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="setup/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="run/" class="md-nav__link">
+      <a href="../run/" class="md-nav__link">
         
   
   
@@ -412,7 +436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="settings/" class="md-nav__link">
+      <a href="../settings/" class="md-nav__link">
         
   
   
@@ -459,10 +483,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#use-this-configuration" class="md-nav__link">
+  <a href="#cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Use this configuration
+        Cluster
       
     </span>
   </a>
@@ -470,10 +494,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-important-code" class="md-nav__link">
+  <a href="#install-ukam" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The important code
+        Install UKAM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-three-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose three paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-canonical-folder-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the canonical folder once
       
     </span>
   </a>
@@ -497,7 +543,7 @@
 
 
   
-    <a href="https://github.com/dodgydave67/ukam-databricks/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/dodgydave67/ukam-databricks/edit/main/docs/setup.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -505,53 +551,112 @@
   
 
 
-<h1 id="uk-address-matcher-on-databricks">UK Address Matcher on Databricks<a class="headerlink" href="#uk-address-matcher-on-databricks" title="Permanent link">&para;</a></h1>
-<p>This is the production recipe for running
-<a href="https://github.com/moj-analytical-services/uk_address_matcher"><code>uk_address_matcher</code></a>
-(UKAM) efficiently on Databricks. It contains only the settings and code needed
-to configure and run the matcher.</p>
-<h2 id="use-this-configuration">Use this configuration<a class="headerlink" href="#use-this-configuration" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Run on a <strong>classic, single-node cluster</strong>. UKAM runs in the driver's Python
-   process, so worker nodes do not help.</li>
-<li>Build the canonical folder once with <code>prepare_canonical_folder()</code> and keep
-   it in durable storage.</li>
-<li>At the start of a cluster session, copy that prepared folder to
-   <code>/local_disk0</code>.</li>
-<li>Use a <strong>fresh, in-memory DuckDB connection</strong> for each matching run.</li>
-<li>Put DuckDB temporary files on <code>/local_disk0</code> and disable insertion-order
-   preservation.</li>
-<li>Write the result locally, then copy it back to durable storage.</li>
-</ol>
-<p>The downloadable notebook implements those choices directly.</p>
-<p><a class="md-button md-button--primary" href="run/">:material-play: Run the matcher</a>
-<a class="md-button" href="setup/">:material-cog: Configure Databricks</a></p>
-<h2 id="the-important-code">The important code<a class="headerlink" href="#the-important-code" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uk_address_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">AddressMatcher</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET temp_directory=&#39;/local_disk0/ukam/tmp&#39;&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET preserve_insertion_order=false&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">matcher</span> <span class="o">=</span> <span class="n">AddressMatcher</span><span class="p">(</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">canonical_addresses</span><span class="o">=</span><span class="s2">&quot;/local_disk0/ukam/prepared&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">addresses_to_match</span><span class="o">=</span><span class="n">con</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">MESSY_INPUT</span><span class="p">),</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">show_progress</span><span class="o">=</span><span class="s2">&quot;stages&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">match</span><span class="p">()</span><span class="o">.</span><span class="n">matches</span><span class="p">()</span>
+<h1 id="set-up-databricks">Set up Databricks<a class="headerlink" href="#set-up-databricks" title="Permanent link">&para;</a></h1>
+<h2 id="cluster">Cluster<a class="headerlink" href="#cluster" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compute</td>
+<td><strong>Classic</strong>, not serverless</td>
+</tr>
+<tr>
+<td>Cluster mode</td>
+<td><strong>Single Node</strong></td>
+</tr>
+<tr>
+<td>Driver</td>
+<td>Start with at least 8 cores and about 64 GB RAM; increase the driver for larger workloads</td>
+</tr>
+<tr>
+<td>Local storage</td>
+<td>Enough <code>/local_disk0</code> space for the prepared canonical folder, output, and possible DuckDB spill</td>
+</tr>
+<tr>
+<td>Workers</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p>UKAM and DuckDB run in the driver process. Adding workers increases cost
+without adding matching capacity. <code>/local_disk0</code> is required and is not
+available on serverless compute.</p>
+<p>Check the cluster before starting:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">stat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">statvfs</span><span class="p">(</span><span class="s2">&quot;/local_disk0&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">free_gb</span> <span class="o">=</span> <span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">f_bavail</span> <span class="o">*</span> <span class="n">stat</span><span class="o">.</span><span class="n">f_frsize</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">3</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/local_disk0 free: </span><span class="si">{</span><span class="n">free_gb</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>The canonical folder must be prepared already and copied to the local path
-before this block runs. The <a href="run/">Run UKAM</a> page provides the complete
-notebook, including that copy and durable output.</p>
-<div class="admonition note">
-<p class="admonition-title">Matching behaviour</p>
-<p>This setup changes where the work runs, not how UKAM scores addresses. It
-leaves blocking rules, thresholds, stages, and other accuracy-affecting
-options at their UKAM defaults.</p>
-</div>
+<h2 id="install-ukam">Install UKAM<a class="headerlink" href="#install-ukam" title="Permanent link">&para;</a></h2>
+<p>Use a cluster library or the first notebook cell:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">uk_address_matcher</span><span class="o">==</span><span class="mf">1.2.4</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">dbutils</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">restartPython</span><span class="p">()</span>
+</code></pre></div>
+<p>Pinning the version prevents an upstream change from silently changing a
+scheduled job. Test a newer UKAM version before updating the pin.</p>
+<h2 id="choose-three-paths">Choose three paths<a class="headerlink" href="#choose-three-paths" title="Permanent link">&para;</a></h2>
+<p>The production notebook asks you to edit only these values:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">PREPARED_REMOTE</span> <span class="o">=</span> <span class="s2">&quot;dbfs:/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/ukam_prepared_canonical&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">MESSY_INPUT</span> <span class="o">=</span> <span class="s2">&quot;/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/messy/*.parquet&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">OUTPUT_REMOTE_DIR</span> <span class="o">=</span> <span class="s2">&quot;dbfs:/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/ukam_matches&quot;</span>
+</code></pre></div>
+<ul>
+<li><code>PREPARED_REMOTE</code> uses a <code>dbfs:/...</code> URI because <code>dbutils.fs.cp</code> copies it to
+  local disk.</li>
+<li><code>MESSY_INPUT</code> is a POSIX-style path that DuckDB can read. For an older DBFS
+  mount, use <code>/dbfs/mnt/&lt;path&gt;/*.parquet</code>.</li>
+<li><code>OUTPUT_REMOTE_DIR</code> is durable storage. Results must not remain only on
+  <code>/local_disk0</code>, which is erased with the cluster.</li>
+</ul>
+<h2 id="prepare-the-canonical-folder-once">Prepare the canonical folder once<a class="headerlink" href="#prepare-the-canonical-folder-once" title="Permanent link">&para;</a></h2>
+<p>If you already have a folder created by <code>prepare_canonical_folder()</code>, skip this
+section. Do not place preparation inside every matching job.</p>
+<p>Run preparation when the canonical source changes, then store the prepared
+folder in the location configured as <code>PREPARED_REMOTE</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">uk_address_matcher</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_canonical_folder</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">LOCAL_ROOT</span> <span class="o">=</span> <span class="s2">&quot;/local_disk0/ukam_prepare&quot;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">LOCAL_PREPARED</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">LOCAL_ROOT</span><span class="si">}</span><span class="s2">/prepared&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">REMOTE_PREPARED</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="s2">&quot;dbfs:/Volumes/&lt;catalog&gt;/&lt;schema&gt;/&lt;volume&gt;/ukam_prepared_canonical&quot;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">LOCAL_ROOT</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">LOCAL_ROOT</span><span class="si">}</span><span class="s2">/prepare.duckdb&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SET temp_directory=&#39;</span><span class="si">{</span><span class="n">LOCAL_ROOT</span><span class="si">}</span><span class="s2">/tmp&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SET preserve_insertion_order=false&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">raw_canonical</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="s2">&quot;/local_disk0/ukam_prepare/raw/*.parquet&quot;</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="p">)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="n">prepare_canonical_folder</span><span class="p">(</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    <span class="n">raw_canonical</span><span class="p">,</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    <span class="n">LOCAL_PREPARED</span><span class="p">,</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>    <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">,</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    <span class="n">show_progress</span><span class="o">=</span><span class="s2">&quot;stages&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="p">)</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="n">dbutils</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>    <span class="sa">f</span><span class="s2">&quot;file:</span><span class="si">{</span><span class="n">LOCAL_PREPARED</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    <span class="n">REMOTE_PREPARED</span><span class="p">,</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    <span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="p">)</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+<p>Copy the raw canonical Parquet files to the local <code>raw</code> directory before
+running this preparation block. Version prepared folders when the canonical
+release changes, or refresh the local cached copy before the next match.</p>
 
 
 
@@ -610,10 +715,10 @@ options at their UKAM defaults.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
