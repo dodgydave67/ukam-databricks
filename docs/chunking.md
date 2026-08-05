@@ -4,159 +4,102 @@ title: Chunk large inputs
 
 # Chunk large inputs
 
-Large, messy inputs can exhaust the driver's memory during matching. Use this
-chunked version when the normal [Run UKAM](run.md) notebook runs out of memory,
-or for inputs around a million rows and above. The exact limit depends on the
-data and the driver's available memory.
+Use this version when the normal [Run UKAM](run.md) notebook runs out of
+driver memory on a large, messy input.
 
-This pattern:
-
-1. groups addresses by the first character of their postcode;
-2. spreads missing postcodes across 64 smaller buckets;
-3. converts one Spark chunk at a time to Arrow for UKAM;
-4. writes each completed chunk immediately to a Delta table; and
-5. skips completed chunks when the notebook is restarted.
+It splits the input into evenly sized chunks, matches one chunk at a time, and
+saves each chunk immediately. If the notebook stops, run it again and it will
+continue from the first unfinished chunk.
 
 ## Before you run it
 
-Complete cells 1–3 on [Run UKAM](run.md) first. This installs UKAM and copies
-the prepared canonical data to `LOCAL_PREPARED` on the driver.
+Run cells 1–3 on [Run UKAM](run.md) first. Your Spark DataFrame should be
+called `tdp_for_ukam` and contain:
 
-Your Spark DataFrame must be called `tdp_for_ukam` and contain:
-
-| Column | Required value |
+| Column | Contents |
 | --- | --- |
-| `unique_id` | A unique ID for each messy address |
+| `unique_id` | A unique ID for each address |
 | `address_concat` | The full messy address |
 | `postcode` | The postcode, or null/blank when missing |
 
-## Cell 4 — Choose the output table
+## Cell 4 — Choose the output and chunk count
 
-Change this one value:
+Change the output table. Start with 64 chunks; increase this only if an
+individual chunk still runs out of memory.
 
 ```python
 OUTPUT_TABLE = "<catalog>.<schema>.ukam_matches"
+NUMBER_OF_CHUNKS = 64
 ```
 
-If the table already exists, the code reads its `postcode_chunked` column and
-continues from the first unfinished chunk.
+Use a new output table if you change `NUMBER_OF_CHUNKS`.
 
-## Cell 5 — Create the chunks
+## Cell 5 — Match in chunks
 
 ```python
+import duckdb
 from pyspark.sql import functions as F
+from uk_address_matcher import AddressMatcher
 
-tdp_for_ukam_chunked = tdp_for_ukam.withColumn(
-    "postcode_chunked",
-    F.when(
-        F.col("postcode").isNull() | (F.col("postcode") == ""),
-        F.concat(
-            F.lit("MISSING_"),
-            F.lpad(
-                F.pmod(F.xxhash64("unique_id"), F.lit(64)).cast("string"),
-                2,
-                "0",
-            ),
-        ),
-    ).otherwise(F.left("postcode", F.lit(1))),
+# Hashing the unique ID gives evenly sized chunks, including rows with no postcode.
+chunked_input = tdp_for_ukam.withColumn(
+    "ukam_chunk",
+    F.pmod(F.xxhash64("unique_id"), F.lit(NUMBER_OF_CHUNKS)),
 )
 
+# A rerun skips chunks that are already in the output table.
 if spark.catalog.tableExists(OUTPUT_TABLE):
     completed_chunks = {
-        row["postcode_chunked"]
+        row["ukam_chunk"]
         for row in spark.table(OUTPUT_TABLE)
-        .select("postcode_chunked")
+        .select("ukam_chunk")
         .distinct()
         .collect()
     }
 else:
     completed_chunks = set()
 
-postcode_chunk_list = sorted(
-    row["postcode_chunked"]
-    for row in tdp_for_ukam_chunked
-    .select("postcode_chunked")
-    .distinct()
-    .collect()
-)
-
-print(f"Completed: {len(completed_chunks)} of {len(postcode_chunk_list)} chunks")
-```
-
-## Cell 6 — Match and save each chunk
-
-The matching stages and thresholds below are the ones used in
-[discussion #438](https://github.com/moj-analytical-services/uk_address_matcher/discussions/438).
-They affect which addresses match, not memory usage. Use them only if they are
-your approved matching rules.
-
-```python
-import duckdb
-from uk_address_matcher import (
-    AddressMatcher,
-    ExactMatchStage,
-    PeeledAddressStage,
-    SplinkStage,
-    UniqueTrigramStage,
-)
-
-for number, chunk_name in enumerate(postcode_chunk_list, start=1):
-    if chunk_name in completed_chunks:
-        print(f"Skipping completed chunk: {chunk_name}")
+for chunk_number in range(NUMBER_OF_CHUNKS):
+    if chunk_number in completed_chunks:
+        print(f"Skipping completed chunk {chunk_number}")
         continue
 
-    print(f"Processing {number} of {len(postcode_chunk_list)}: {chunk_name}")
+    print(f"Matching chunk {chunk_number + 1} of {NUMBER_OF_CHUNKS}")
     con = duckdb.connect()
 
     try:
         con.execute(f"SET temp_directory='{LOCAL_TMP}'")
         con.execute("SET preserve_insertion_order=false")
 
-        chunk_arrow = (
-            tdp_for_ukam_chunked
-            .where(F.col("postcode_chunked") == chunk_name)
+        addresses = con.from_arrow(
+            chunked_input
+            .where(F.col("ukam_chunk") == chunk_number)
             .select("unique_id", "address_concat", "postcode")
             .toArrow()
         )
-        print(f"Rows in chunk: {chunk_arrow.num_rows:,}")
 
         matcher = AddressMatcher(
             canonical_addresses=LOCAL_PREPARED,
-            addresses_to_match=con.from_arrow(chunk_arrow),
+            addresses_to_match=addresses,
             con=con,
-            stages=[
-                ExactMatchStage(),
-                PeeledAddressStage(),
-                UniqueTrigramStage(),
-                SplinkStage(
-                    final_match_weight_threshold=10.0,
-                    final_distinguishability_threshold=1.0,
-                ),
-            ],
+            show_progress="stages",
         )
 
-        matches_arrow = matcher.match().matches().to_arrow_table()
-        result = (
-            spark.createDataFrame(matches_arrow)
-            .withColumn("postcode_chunked", F.lit(chunk_name))
-        )
+        matches = spark.createDataFrame(
+            matcher.match().matches().to_arrow_table()
+        ).withColumn("ukam_chunk", F.lit(chunk_number))
 
-        result.write.format("delta").mode("append").saveAsTable(OUTPUT_TABLE)
-        print(f"Saved chunk: {chunk_name}")
-
-        del matcher, matches_arrow, chunk_arrow, result
+        matches.write.format("delta").mode("append").saveAsTable(OUTPUT_TABLE)
+        print(f"Saved chunk {chunk_number}")
     finally:
         con.close()
 
-print(f"All chunks saved to {OUTPUT_TABLE}")
+print(f"All matches saved to {OUTPUT_TABLE}")
 ```
 
-Each append to the Delta table is transactional. If Python or the cluster
-stops later, previously saved chunks remain available and the next run skips
-them.
+The two Arrow calls are only the efficient hand-off between Spark and UKAM's
+driver-side DuckDB process. Replacing them with pandas would use more driver
+memory; there are no Arrow settings to configure.
 
-## If one chunk still runs out of memory
-
-Postcode-first-letter chunks are not all the same size. If one is still too
-large, split the input into more hash buckets or use a larger driver, then
-write to a new output table and rerun from the beginning.
+Each Delta append is transactional, so completed chunks remain saved if the
+cluster or Python process stops later.
