@@ -1,0 +1,2064 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A benchmarked, reproducible configuration for running the uk_address_matcher library on Databricks classic compute.">
+      
+      
+      
+        <link rel="canonical" href="https://dodgydave67.github.io/ukam-databricks/benchmarks/results/">
+      
+      
+        <link rel="prev" href="../../reference/troubleshooting/">
+      
+      
+        <link rel="next" href="../methodology/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Results - UK Address Matcher on Databricks</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#results" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="UK Address Matcher on Databricks" class="md-header__button md-logo" aria-label="UK Address Matcher on Databricks" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c3.86 0 7 3.14 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.86 3.14-7 7-7m-1.53 12L17 7.41 15.6 6l-5.13 5.18L8.4 9.09 7 10.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UK Address Matcher on Databricks
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Results
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/dodgydave67/ukam-databricks" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dodgydave67/ukam-databricks
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../setup/cluster/" class="md-tabs__link">
+          
+  
+  
+  Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/optimisations/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Benchmarks
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UK Address Matcher on Databricks" class="md-nav__button md-logo" aria-label="UK Address Matcher on Databricks" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c3.86 0 7 3.14 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.86 3.14-7 7-7m-1.53 12L17 7.41 15.6 6l-5.13 5.18L8.4 9.09 7 10.5z"/></svg>
+
+    </a>
+    UK Address Matcher on Databricks
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/dodgydave67/ukam-databricks" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dodgydave67/ukam-databricks
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../why-slow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why it is slow by default
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/prepare-canonical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparing canonical data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/recommended-notebook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The recommended notebook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/outputs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing results back
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/optimisations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimisation reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/rejected/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tested and rejected
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Settings cheat sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accuracy vs speed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Benchmarks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#averages-across-both-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Averages across both runs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Averages across both runs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-copy-cost-is-accounted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How copy cost is accounted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-stage-timings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-stage timings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-to-run-variation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run-to-run variation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correctness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Findings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Findings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-local-canonical-data-produced-the-entire-gain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Local canonical data produced the entire gain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-copying-the-messy-data-locally-added-nothing-measurable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Copying the messy data locally added nothing measurable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-pragmas-helped-modestly-and-eliminated-measured-spill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The pragmas helped modestly and eliminated measured spill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-an-on-disk-duckdb-database-was-slower" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. An on-disk DuckDB database was slower
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-materialising-the-canonical-relations-was-clearly-counterproductive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Materialising the canonical relations was clearly counterproductive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timing definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../harness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run it yourself
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#averages-across-both-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Averages across both runs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Averages across both runs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-copy-cost-is-accounted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How copy cost is accounted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-stage-timings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-stage timings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-to-run-variation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run-to-run variation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correctness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Findings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Findings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-local-canonical-data-produced-the-entire-gain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Local canonical data produced the entire gain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-copying-the-messy-data-locally-added-nothing-measurable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Copying the messy data locally added nothing measurable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-pragmas-helped-modestly-and-eliminated-measured-spill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The pragmas helped modestly and eliminated measured spill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-an-on-disk-duckdb-database-was-slower" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. An on-disk DuckDB database was slower
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-materialising-the-canonical-relations-was-clearly-counterproductive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Materialising the canonical relations was clearly counterproductive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timing definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/dodgydave67/ukam-databricks/edit/main/docs/benchmarks/results.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="results">Results<a class="headerlink" href="#results" title="Permanent link">&para;</a></h1>
+<p>Full cumulative test matrix, six arms, two repeats each, from
+<a href="https://github.com/moj-analytical-services/uk_address_matcher/discussions/463">Discussion #463</a>.</p>
+<div class="admonition success">
+<p class="admonition-title">Recommended configuration: arm 3</p>
+<p>Prepared canonical data copied to <code>/local_disk0</code>, DuckDB pragmas set,
+<strong>in-memory</strong> DuckDB database. Average match time <strong>58.86 s</strong> against a
+<strong>130.84 s</strong> baseline — a <strong>2.22×</strong> speed-up. Including the canonical copy,
+end-to-end wall time fell from <strong>132.28 s</strong> to <strong>67.06 s</strong> (<strong>1.97×</strong>).</p>
+<p>Arms 4, 5 and 6 each added something and each failed to pay for itself.</p>
+</div>
+<h2 id="test-environment">Test environment<a class="headerlink" href="#test-environment" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Databricks Runtime</td>
+<td>17.3</td>
+</tr>
+<tr>
+<td>Compute</td>
+<td>Classic, 8 CPU cores</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>57.4 GB</td>
+</tr>
+<tr>
+<td>Free <code>/local_disk0</code> space</td>
+<td>173.8 GB</td>
+</tr>
+<tr>
+<td>DuckDB</td>
+<td>1.5.0</td>
+</tr>
+<tr>
+<td>uk_address_matcher</td>
+<td>1.2.4</td>
+</tr>
+<tr>
+<td>Splink</td>
+<td>4.0.16</td>
+</tr>
+<tr>
+<td>DuckDB threads</td>
+<td>8</td>
+</tr>
+<tr>
+<td>DuckDB effective memory limit</td>
+<td>45.9 GiB</td>
+</tr>
+<tr>
+<td>Messy addresses</td>
+<td>6,367</td>
+</tr>
+<tr>
+<td>Repeats per arm</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="averages-across-both-runs">Averages across both runs<a class="headerlink" href="#averages-across-both-runs" title="Permanent link">&para;</a></h2>
+<p>Copy costs are <strong>excluded</strong> from match time and <strong>included</strong> in wall time. Wall
+time also covers setup, input counting, fingerprinting and cleanup, so it is the
+better measure of a complete arm.</p>
+<table>
+<thead>
+<tr>
+<th>Arm</th>
+<th style="text-align: right;">Match</th>
+<th style="text-align: right;">Wall</th>
+<th style="text-align: right;">Match speed-up</th>
+<th style="text-align: right;">Wall speed-up</th>
+<th style="text-align: right;">Copy canonical</th>
+<th style="text-align: right;">Copy messy</th>
+<th style="text-align: right;">Materialise</th>
+<th style="text-align: right;">Peak spill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Baseline</td>
+<td style="text-align: right;">130.84 s</td>
+<td style="text-align: right;">132.28 s</td>
+<td style="text-align: right;">1.00×</td>
+<td style="text-align: right;">1.00×</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.32 GB</td>
+</tr>
+<tr>
+<td>2 + DuckDB pragmas</td>
+<td style="text-align: right;">126.79 s</td>
+<td style="text-align: right;">128.18 s</td>
+<td style="text-align: right;">1.03×</td>
+<td style="text-align: right;">1.03×</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.00 GB</td>
+</tr>
+<tr>
+<td><strong>3 + canonical on local disk</strong></td>
+<td style="text-align: right;"><strong>58.86 s</strong></td>
+<td style="text-align: right;"><strong>67.06 s</strong></td>
+<td style="text-align: right;"><strong>2.22×</strong></td>
+<td style="text-align: right;"><strong>1.97×</strong></td>
+<td style="text-align: right;">6.91 s</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.00 GB</td>
+</tr>
+<tr>
+<td>4 + messy on local disk</td>
+<td style="text-align: right;">59.03 s</td>
+<td style="text-align: right;">71.89 s</td>
+<td style="text-align: right;">2.22×</td>
+<td style="text-align: right;">1.84×</td>
+<td style="text-align: right;">11.00 s</td>
+<td style="text-align: right;">0.09 s</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.00 GB</td>
+</tr>
+<tr>
+<td>5 + on-disk DuckDB database</td>
+<td style="text-align: right;">74.07 s</td>
+<td style="text-align: right;">85.30 s</td>
+<td style="text-align: right;">1.77×</td>
+<td style="text-align: right;">1.55×</td>
+<td style="text-align: right;">9.21 s</td>
+<td style="text-align: right;">0.09 s</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.00 GB</td>
+</tr>
+<tr>
+<td>6 + materialised canonical</td>
+<td style="text-align: right;">155.72 s</td>
+<td style="text-align: right;">167.73 s</td>
+<td style="text-align: right;">0.84×</td>
+<td style="text-align: right;">0.79×</td>
+<td style="text-align: right;">8.39 s</td>
+<td style="text-align: right;">0.08 s</td>
+<td style="text-align: right;">76.41 s</td>
+<td style="text-align: right;">0.00 GB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-copy-cost-is-accounted">How copy cost is accounted<a class="headerlink" href="#how-copy-cost-is-accounted" title="Permanent link">&para;</a></h3>
+<p>Copy time sits in its own columns, excluded from match time and included in wall
+time. That split matters for how you read the table:</p>
+<ul>
+<li>On a <strong>long-lived interactive cluster</strong> the copy happens once per cluster
+  lifetime, so <strong>match time</strong> is your number. Arm 3: 58.86 s.</li>
+<li>On a <strong>fresh job cluster</strong> you pay the copy every run, so <strong>wall time</strong> is your
+  number. Arm 3: 67.06 s — still 1.97× better than baseline.</li>
+</ul>
+<p>Copy time for the same canonical folder ranged <strong>6.91 s to 11.00 s</strong> across arms,
+so treat it as a band rather than a constant.</p>
+<h2 id="per-stage-timings">Per-stage timings<a class="headerlink" href="#per-stage-timings" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Arm</th>
+<th style="text-align: right;">Exact matching</th>
+<th style="text-align: right;">Splink</th>
+<th style="text-align: right;">Other work inside <code>match()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Baseline</td>
+<td style="text-align: right;">18.98 s</td>
+<td style="text-align: right;">83.91 s</td>
+<td style="text-align: right;">27.95 s</td>
+</tr>
+<tr>
+<td>2 + DuckDB pragmas</td>
+<td style="text-align: right;">16.64 s</td>
+<td style="text-align: right;">80.69 s</td>
+<td style="text-align: right;">29.46 s</td>
+</tr>
+<tr>
+<td><strong>3 + canonical on local disk</strong></td>
+<td style="text-align: right;"><strong>1.38 s</strong></td>
+<td style="text-align: right;"><strong>52.31 s</strong></td>
+<td style="text-align: right;"><strong>5.17 s</strong></td>
+</tr>
+<tr>
+<td>4 + messy on local disk</td>
+<td style="text-align: right;">1.34 s</td>
+<td style="text-align: right;">52.28 s</td>
+<td style="text-align: right;">5.40 s</td>
+</tr>
+<tr>
+<td>5 + on-disk DuckDB database</td>
+<td style="text-align: right;">1.53 s</td>
+<td style="text-align: right;">59.02 s</td>
+<td style="text-align: right;">13.52 s</td>
+</tr>
+<tr>
+<td>6 + materialised canonical</td>
+<td style="text-align: right;">0.58 s</td>
+<td style="text-align: right;">65.82 s</td>
+<td style="text-align: right;">89.32 s</td>
+</tr>
+</tbody>
+</table>
+<p><em>Other work inside <code>match()</code></em> is measured <code>match()</code> duration minus the published
+exact-match and Splink stage diagnostics — UKAM work outside those stage timers.
+For arm 6, materialisation happens inside <code>match()</code> and so appears here as well
+as in its own column.</p>
+<p>The exact-match stage is the clearest signal in the whole matrix: <strong>18.98 s →
+1.38 s</strong>, a 14× improvement, purely from moving the canonical Parquet onto local
+disk. That stage is dominated by reading the canonical side, so it responds
+almost entirely to I/O latency.</p>
+<h2 id="run-to-run-variation">Run-to-run variation<a class="headerlink" href="#run-to-run-variation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Arm</th>
+<th style="text-align: right;">Run 1 match</th>
+<th style="text-align: right;">Run 2 match</th>
+<th style="text-align: right;">Difference</th>
+<th style="text-align: right;">Run 1 wall</th>
+<th style="text-align: right;">Run 2 wall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Baseline</td>
+<td style="text-align: right;">122.65 s</td>
+<td style="text-align: right;">139.02 s</td>
+<td style="text-align: right;">16.37 s</td>
+<td style="text-align: right;">123.88 s</td>
+<td style="text-align: right;">140.68 s</td>
+</tr>
+<tr>
+<td>2 + DuckDB pragmas</td>
+<td style="text-align: right;">126.98 s</td>
+<td style="text-align: right;">126.60 s</td>
+<td style="text-align: right;">0.38 s</td>
+<td style="text-align: right;">128.30 s</td>
+<td style="text-align: right;">128.05 s</td>
+</tr>
+<tr>
+<td>3 + canonical on local disk</td>
+<td style="text-align: right;">58.93 s</td>
+<td style="text-align: right;">58.79 s</td>
+<td style="text-align: right;">0.14 s</td>
+<td style="text-align: right;">67.30 s</td>
+<td style="text-align: right;">66.81 s</td>
+</tr>
+<tr>
+<td>4 + messy on local disk</td>
+<td style="text-align: right;">60.17 s</td>
+<td style="text-align: right;">57.88 s</td>
+<td style="text-align: right;">2.29 s</td>
+<td style="text-align: right;">72.15 s</td>
+<td style="text-align: right;">71.62 s</td>
+</tr>
+<tr>
+<td>5 + on-disk DuckDB database</td>
+<td style="text-align: right;">74.38 s</td>
+<td style="text-align: right;">73.76 s</td>
+<td style="text-align: right;">0.62 s</td>
+<td style="text-align: right;">85.26 s</td>
+<td style="text-align: right;">85.33 s</td>
+</tr>
+<tr>
+<td>6 + materialised canonical</td>
+<td style="text-align: right;">159.85 s</td>
+<td style="text-align: right;">151.58 s</td>
+<td style="text-align: right;">8.27 s</td>
+<td style="text-align: right;">173.84 s</td>
+<td style="text-align: right;">161.62 s</td>
+</tr>
+</tbody>
+</table>
+<p>Note the <strong>16.37 s</strong> spread on the baseline against <strong>0.14 s</strong> on arm 3. Reading
+from DBFS is not only slower, it is far less predictable — which matters if you
+have an SLA rather than just a stopwatch.</p>
+<h2 id="correctness">Correctness<a class="headerlink" href="#correctness" title="Permanent link">&para;</a></h2>
+<p>All 12 successful runs produced the same fingerprint:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>5194b60df1884b954e1fb2c21ce845e9
+</span></code></pre></div>
+<p>Every arm returned an identical <code>unique_id → resolved_canonical_id</code> mapping. The
+performance differences did not change a single match.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Matched</td>
+<td style="text-align: right;">6,358 / 6,367 (99.86%)</td>
+</tr>
+<tr>
+<td>Unmatched</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>Exact-stage matches</td>
+<td style="text-align: right;">1,672</td>
+</tr>
+<tr>
+<td>Splink-stage matches</td>
+<td style="text-align: right;">4,686</td>
+</tr>
+</tbody>
+</table>
+<h2 id="findings">Findings<a class="headerlink" href="#findings" title="Permanent link">&para;</a></h2>
+<h3 id="1-local-canonical-data-produced-the-entire-gain">1. Local canonical data produced the entire gain<a class="headerlink" href="#1-local-canonical-data-produced-the-entire-gain" title="Permanent link">&para;</a></h3>
+<p>Match time <strong>130.84 s → 58.86 s</strong>. The exact-match stage fell from 18.98 s to
+1.38 s and Splink from 83.91 s to 52.31 s. Repeated reads of the prepared
+canonical Parquet were the dominant bottleneck.</p>
+<h3 id="2-copying-the-messy-data-locally-added-nothing-measurable">2. Copying the messy data locally added nothing measurable<a class="headerlink" href="#2-copying-the-messy-data-locally-added-nothing-measurable" title="Permanent link">&para;</a></h3>
+<p>The copy itself cost <strong>0.09 s</strong> — the file is small. Match time moved from
+58.86 s to 59.03 s, well inside noise for two repeats.</p>
+<p>Arm 4's <em>wall</em> time looks worse (67.06 s → 71.89 s), but that is misleading:
+the canonical copy in that arm happened to take <strong>11.00 s</strong> against <strong>6.91 s</strong>
+in arm 3. The regression is copy-time variance on the same operation, not a cost
+of the messy copy. Canonical copy time ranged from 6.91 s to 11.00 s across arms
+for identical work.</p>
+<h3 id="3-the-pragmas-helped-modestly-and-eliminated-measured-spill">3. The pragmas helped modestly and eliminated measured spill<a class="headerlink" href="#3-the-pragmas-helped-modestly-and-eliminated-measured-spill" title="Permanent link">&para;</a></h3>
+<p><code>temp_directory</code> on <code>/local_disk0</code> plus <code>preserve_insertion_order=false</code> moved
+match time from 130.84 s to 126.79 s. More usefully, baseline peak spill of
+<strong>0.32 GB</strong> dropped to <strong>zero</strong>, and run-to-run spread collapsed from 16.37 s to
+0.38 s.</p>
+<h3 id="4-an-on-disk-duckdb-database-was-slower">4. An on-disk DuckDB database was slower<a class="headerlink" href="#4-an-on-disk-duckdb-database-was-slower" title="Permanent link">&para;</a></h3>
+<p>Match time rose from 59.03 s to <strong>74.07 s</strong>; wall time from 71.89 s to 85.30 s.
+With 57.4 GB of RAM, a 45.9 GiB effective memory limit and no spill to relieve,
+persistence added overhead and bought nothing.</p>
+<div class="admonition note">
+<p class="admonition-title">This contradicts general Splink guidance</p>
+<p>Arm 5 implements the on-disk-database approach recommended in
+<a href="https://github.com/moj-analytical-services/splink/discussions/2652#discussioncomment-12505866">splink#2652</a>.
+It did not help <em>in this test</em>. That guidance targets workloads that are
+actually memory-constrained; this one was not. See
+<a href="../../reference/rejected/#on-disk-duckdb-database">Tested and rejected</a>.</p>
+</div>
+<h3 id="5-materialising-the-canonical-relations-was-clearly-counterproductive">5. Materialising the canonical relations was clearly counterproductive<a class="headerlink" href="#5-materialising-the-canonical-relations-was-clearly-counterproductive" title="Permanent link">&para;</a></h3>
+<p>Materialisation alone cost an average of <strong>76.41 s</strong>. Exact matching became very
+fast (0.58 s) but total match time rose to <strong>155.72 s</strong> — slower than the
+untuned baseline.</p>
+<p>This does not support adding eager canonical materialisation to UKAM in the form
+tested. A useful version would need to avoid the upfront table-creation cost, or
+amortise it across several match batches.</p>
+<h2 id="recommendation">Recommendation<a class="headerlink" href="#recommendation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Do</th>
+<th>Do not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Copy the prepared canonical folder to <code>/local_disk0</code></td>
+<td>Use an on-disk DuckDB database unless you are actually spilling</td>
+</tr>
+<tr>
+<td>Set <code>temp_directory</code> to <code>/local_disk0</code></td>
+<td>Materialise the canonical relations eagerly</td>
+</tr>
+<tr>
+<td>Set <code>preserve_insertion_order=false</code></td>
+<td>Bother copying small messy files locally</td>
+</tr>
+<tr>
+<td>Keep the DuckDB connection <strong>in memory</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>If you match several messy batches against the same canonical folder in one
+cluster session, copy once and reuse — that avoids paying the ~7 s copy per
+batch.</p>
+<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
+<p>Stated by the benchmark author, and worth respecting before you generalise:</p>
+<ul>
+<li>Only <strong>two repeats</strong>; small differences should not be over-interpreted.</li>
+<li>One messy dataset of <strong>6,367 addresses</strong>, one prepared canonical dataset, one
+  cluster shape.</li>
+<li>Filesystem and cluster-cache state may have influenced run order.</li>
+<li>Copy time varied noticeably between runs, particularly for the canonical
+  folder.</li>
+<li>The spill monitor sampled every 2 s, so short-lived spill may have been missed.</li>
+<li>Materialisation may still pay off where one materialised table is reused across
+  several matching calls — untested here.</li>
+</ul>
+<p>Suggested follow-ups: at least five repeats with randomised arm order; copy the
+canonical folder once then run several independent messy batches; test larger
+messy datasets to find where local copying starts to matter; test the explicit
+memory-limit arm; and time canonical loading, matcher initialisation, stage
+execution and fingerprinting separately.</p>
+<p>A further test matrix for <code>prepare_canonical_folder()</code> is planned.</p>
+<h2 id="timing-definitions">Timing definitions<a class="headerlink" href="#timing-definitions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Copy canonical</strong></td>
+<td>Copying the prepared canonical folder from DBFS to <code>/local_disk0</code></td>
+</tr>
+<tr>
+<td><strong>Copy messy</strong></td>
+<td>Copying the messy Parquet input from DBFS to <code>/local_disk0</code></td>
+</tr>
+<tr>
+<td><strong>Materialise</strong></td>
+<td>Creating physical DuckDB tables from the lazy canonical and TF relations</td>
+</tr>
+<tr>
+<td><strong>Match</strong></td>
+<td>Elapsed time for <code>matcher.match()</code> only</td>
+</tr>
+<tr>
+<td><strong>Wall</strong></td>
+<td>Complete arm duration: copies, connection setup, input counting, matching, fingerprinting, cleanup</td>
+</tr>
+<tr>
+<td><strong>Peak spill</strong></td>
+<td>Greatest observed size of the monitored DuckDB temporary directory</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../reference/troubleshooting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Troubleshooting">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Troubleshooting
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../methodology/" class="md-footer__link md-footer__link--next" aria-label="Next: Methodology">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Methodology
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Documentation for <a href="https://github.com/moj-analytical-services/uk_address_matcher">uk_address_matcher</a>, an MIT-licensed project of the Ministry of Justice. This site is unofficial.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/dodgydave67" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://moj-analytical-services.github.io/uk_address_matcher/" target="_blank" rel="noopener" title="Official uk_address_matcher documentation" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
