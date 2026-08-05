@@ -1,0 +1,138 @@
+site_name: UK Address Matcher on Databricks
+site_description: >-
+  A benchmarked, reproducible configuration for running the uk_address_matcher
+  library on Databricks classic compute.
+site_url: https://dodgydave67.github.io/ukam-databricks/
+repo_url: https://github.com/dodgydave67/ukam-databricks
+repo_name: dodgydave67/ukam-databricks
+edit_uri: edit/main/docs/
+
+copyright: >-
+  Documentation for
+  <a href="https://github.com/moj-analytical-services/uk_address_matcher">uk_address_matcher</a>,
+  an MIT-licensed project of the Ministry of Justice. This site is unofficial.
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/map-marker-check
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.tooltips
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+plugins:
+  - search
+  - tags
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dodgydave67
+    - icon: material/book-open-variant
+      link: https://moj-analytical-services.github.io/uk_address_matcher/
+      name: Official uk_address_matcher documentation
+
+extra_css:
+  - assets/extra.css
+
+nav:
+  - Home:
+      - Overview: index.md
+      - Why it is slow by default: why-slow.md
+      - Quickstart: quickstart.md
+  - Setup:
+      - Cluster configuration: setup/cluster.md
+      - Preparing canonical data: setup/prepare-canonical.md
+      - The recommended notebook: setup/recommended-notebook.md
+      - Writing results back: setup/outputs.md
+  - Reference:
+      - Optimisation reference: reference/optimisations.md
+      - Tested and rejected: reference/rejected.md
+      - Settings cheat sheet: reference/settings.md
+      - Accuracy vs speed: reference/accuracy.md
+      - Troubleshooting: reference/troubleshooting.md
+  - Benchmarks:
+      - Results: benchmarks/results.md
+      - Methodology: benchmarks/methodology.md
+      - Run it yourself: benchmarks/harness.md
