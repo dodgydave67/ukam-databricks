@@ -557,8 +557,9 @@
 
 
 <h1 id="chunk-large-inputs">Chunk large inputs<a class="headerlink" href="#chunk-large-inputs" title="Permanent link">&para;</a></h1>
-<p>Use this version when the normal <a href="../run/">Run UKAM</a> notebook runs out of
-driver memory on a large, messy input.</p>
+<p>You will normally need chunking when matching a messy input of more than one
+million rows. Use this version sooner if the normal <a href="../run/">Run UKAM</a>
+notebook runs out of driver memory.</p>
 <p>It splits the input into evenly sized chunks, matches one chunk at a time, and
 saves each chunk immediately. If the notebook stops, run it again and it will
 continue from the first unfinished chunk.</p>
